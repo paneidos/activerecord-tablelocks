@@ -4,7 +4,8 @@ when "postgres"
     "adapter" => "postgresql",
     "database" => ENV["DATABASE"],
     "username" => ENV["USERNAME"],
-    "password" => ENV["PASSWORD"]
+    "password" => ENV["PASSWORD"],
+    "pool" => "15"
   }
 else
   raise "Only Postgres is supported at this time"
@@ -24,7 +25,8 @@ ActiveRecord::Schema.define do
     t.string :name
     t.text :content
   end
-  create_table :comment do |t|
+  create_table :comments do |t|
+    t.string :title
     t.text :content
   end
   create_table :users do |t|

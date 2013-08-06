@@ -7,5 +7,8 @@ require 'active_record'
 
 Dir[File.join(File.dirname(__FILE__),"support/**/*.rb")].each { |f| require f }
 
+# For more progress output during the long test, uncomment the line below
+# ActiveRecord::Base.logger = Logger.new(STDOUT)
+
 RSpec.configure do |config|
 end
