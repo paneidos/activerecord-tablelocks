@@ -2,6 +2,7 @@
 module ActiveRecord
   class Base
     class << self
+      attr_reader :locking_enabled
 
       def enable_locking(options = {})
         @locking_enabled = true
@@ -24,6 +25,32 @@ module ActiveRecord
           *@lock_targets[:table_names].map{|table_name| connection.quote_table_name(table_name) },
           *@lock_targets[:class_names].map{|class_name| class_name.constantize.quoted_table_name }].sort.uniq
       end
+    end
+
+    def add_to_transaction
+      if self.class.locking_enabled
+        self.class.connection.lock_tables self.class.tables_to_lock
+      end
+      super
+    end
+  end
+  module ConnectionAdapters
+    class AbstractAdapter
+      def self.inherited(subclass)
+        case subclass.name
+        when "ActiveRecord::ConnectionAdapters::PostgreSQLAdapter"
+          require 'activerecord/tablelocks/activerecord/postgres'
+        end
+      end
+      def lock_table(quoted_table_name)
+        logger.warn "WARNING: Locking is not supported for your database!"
+      end
+      def lock_tables(quoted_table_names)
+        logger.warn "WARNING: Locking is not supported for your database!"
+      end
+    end
+    if defined?(PostgreSQLAdapter)
+      require 'activerecord/tablelocks/activerecord/postgres'
     end
   end
 end
