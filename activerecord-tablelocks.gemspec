@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Sernin van de Krol"]
   spec.email         = ["serninpc@paneidos.net"]
   spec.description   = %q{This gem enables the use of database specific table locks when saving or destroying your ActiveRecord objects. This ensures no race conditions exist when using e.g. validates_uniqueness_of.}
-  spec.summary       = %q{Use native table locks in your ActiveRecord models}
-  spec.homepage      = ""
+  spec.summary       = %q{Use native table locks of your database for your ActiveRecord models}
+  spec.homepage      = "https://github.com/paneidos/activerecord-tablelocks"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"]
