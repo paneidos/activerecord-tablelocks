@@ -43,10 +43,10 @@ module ActiveRecord
         end
       end
       def lock_table(quoted_table_name)
-        logger.warn "WARNING: Locking is not supported for your database!"
+        ActiveRecord::Base.logger.try :warn, "WARNING: Locking is not supported for your database!"
       end
       def lock_tables(quoted_table_names)
-        logger.warn "WARNING: Locking is not supported for your database!"
+        ActiveRecord::Base.logger.try :warn, "WARNING: Locking is not supported for your database!"
       end
     end
     if defined?(PostgreSQLAdapter)
