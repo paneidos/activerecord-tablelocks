@@ -1,6 +1,7 @@
-# Activerecord::Tablelocks
+## ActiveRecord Tablelocks
 
-TODO: Write a gem description
+This gem adds table locking functionality to ActiveRecord.
+Every save and destroy action is already done using a transaction, but now you can add locking to this process to make sure you really have unique records.
 
 ## Installation
 
@@ -18,7 +19,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In your models use the following to lock the table when editing records:
+
+    class User < ActiveRecord::Base
+        validates :login, :uniqueness => true, :presence => true
+        # The following line enables locking to make sure the uniqueness constraint holds.
+        enable_locking
+    end
+
+If you need to lock multiple table, you can specify this in two ways.
+
+Using class names:
+
+    class EmailBox < ActiveRecord::Base
+        enable_locking :class_names => ['EmailAlias']
+        # The class name needs to be a String, but doesn't need to be in an Array.
+        # Don't forget to add validations, this gem doesn't do that for you.
+    end
+
+Using table names:
+
+    class EmailAlias < ActiveRecord::Base
+        enable_locking :table_names => ['email_boxes']
+        # The table name needs to be a String, but doesn't need to be in an Array.
+        # The gem quotes the table name for you, so you don't need to that here.
+        # Don't forget to add validations, this gem doesn't do that for you.
+    end
+
 
 ## Contributing
 
