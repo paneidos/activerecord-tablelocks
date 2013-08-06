@@ -1,5 +1,8 @@
 require 'spec_helper'
 require 'models/comment'
+require 'models/user'
+require 'models/group'
+require 'models/page'
 
 describe "Race conditions" do
   it "should prevent race conditions on a single table" do
